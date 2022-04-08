@@ -1,0 +1,113 @@
+<!-- views/profile.ejs -->
+<!doctype html>
+<html>
+
+<head>
+	<title>Equipment Failure Monitoring System</title>
+	<script src="https://code.jquery.com/jquery-3.1.1.js"></script>
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+
+	<script src="https://cdn.jsdelivr.net/momentjs/2.18.1/moment.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.13/moment-timezone.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+
+	<!-- <style>
+		body 		{ padding-top:80px; word-wrap:break-word; }
+	</style> -->
+</head>
+
+<body style="
+  background-image: linear-gradient(to right, #3976b8  , #0a7cf7);
+;
+">
+	<div style="display: flex; justify-content: space-between;">
+		<h3 style="color: white; margin-left: 20px ; font-size: 45px;"> Welcome <%= user.username %> !!</h3>
+		<a style="margin-right: 20px;margin-top: 15px;color: red;background-color: white; padding: 5px; border-radius: 10px; width: 80px;text-align: center;height: 30px;font-size: 17px;"
+			href="/logout">Logout</a>
+	</div>
+
+
+	</div>
+
+	<div class="col-sm-4" style="margin-left: 12%; margin-top: 40px;">
+		<div class="well" style="border-radius: 15px;">
+			<h3><span class="fa fa-user"></span> MOTOR STATUS</h3>
+			<br>
+			<div style="display: flex;justify-content: space-between;">
+				<output id="equipment_Value" style="font-size: 20px;font-weight: bold;color: black;">Getting Motor
+					value</output>
+			</div>
+		</div>
+
+	</div>
+
+	<div class="col-sm-6" style="margin-top: 40px;">
+		<div class="well" style="border-radius: 15px;">
+			<h3><span class="fa fa-user"></span> MESSAGE</h3>
+			<br>
+			<output id="equipment_Message" style="font-size: 20px;font-weight: bold;color: black;">Getting Motor
+				Message</output>
+		</div>
+	</div>
+
+	</div>
+
+
+
+
+	</div>
+	</div>
+
+
+
+
+	</div>
+
+</body>
+<script>
+	$(document).ready(function () {
+		getequipment_Value();
+
+	});
+
+	setInterval(function () {
+		getequipment_Value();
+	}, 3000);
+
+	function getequipment_Value() {
+		$.ajax({
+			url: '/equipment_Value',
+			type: "get",
+			dataType: "json",
+			success: function (data, textStatus, jqXHR) {
+
+				if (Number(data[0].value) == 1) {
+					equipment_Value = "OFF"
+					equipment_Message_value = data[0].message
+					$("#equipment_Value").val(equipment_Value);
+					$("#equipment_Message").val(equipment_Message_value);
+
+				}
+
+				else {
+
+					equipment_Value = "ON"
+					equipment_Message_value = data[0].message
+					$("#equipment_Value").val(equipment_Value);
+					$("#equipment_Message").val(equipment_Message_value);
+
+				}
+
+
+
+			}
+		});
+	}
+
+
+
+</script>
+
+
+</html>
